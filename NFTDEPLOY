@@ -1,0 +1,43 @@
+contract;
+
+use std::auth::{Auth, has_role};
+use std::asset::{mint_to_address};
+use std::storage::{store};
+
+abi INFTContract {
+    // NFT'nin yeni bir adrese mint edilmesi
+    fn mint(to: Address) -> u64;
+    
+    // Token sahibini sorgulamak
+    fn owner_of(token_id: u64) -> Option<Address>;
+}
+
+storage {
+    // Token sahiplerini tutan harita (token_id => sahip adresi)
+    owner_map: Map<u64, Address>,
+    
+    // NFT için son verilen token_id
+    token_counter: u64,
+}
+
+impl INFTContract for Contract {
+    fn mint(to: Address) -> u64 {
+        // Yeni token_id'yi oluştur
+        let new_token_id = storage.token_counter;
+        storage.token_counter += 1;
+
+        // Token sahibini kaydet
+        storage.owner_map.insert(new_token_id, to);
+
+        // Token'i yeni sahibine mint et
+        mint_to_address(to, new_token_id);
+
+        new_token_id
+    }
+
+    fn owner_of(token_id: u64) -> Option<Address> {
+        // Token sahibini döndür
+        storage.owner_map.get(token_id)
+    }
+}
+
