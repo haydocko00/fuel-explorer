@@ -1,0 +1,5 @@
+Açıklamalar:
+mint fonksiyonu: Yeni bir NFT basmak (mint etmek) için kullanılır. Bir adrese yeni bir NFT atar ve bu NFT'nin kimliği token_id olarak döner.
+owner_of fonksiyonu: Belirtilen token_id'nin sahibini döndürür. Eğer böyle bir token yoksa None döndürür.
+storage: NFT sahiplerini ve en son mint edilen token_id'yi tutmak için kullanılır.
+Bu kontratı Fuel Network üzerinde dağıttıktan sonra, mint fonksiyonu ile yeni NFT
